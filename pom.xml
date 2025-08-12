@@ -50,6 +50,13 @@
     <module>infra/security-lib</module>-->
 </modules>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+	</dependencies>
+
 <!-- Common dependencies for all modules -->
 	<dependencyManagement>
 		<dependencies>
@@ -70,6 +77,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
