@@ -45,6 +45,8 @@
 		<module>common/common-logging</module>
 		<module>common/common-config</module>
 		<module>infra/kafka-events</module>
+		<module>infra/resilience4j-config</module>
+		<module>infra/tracing-config</module>
 	</modules>
 
 	<!-- Common dependencies for all modules -->
