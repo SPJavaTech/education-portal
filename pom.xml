@@ -41,16 +41,16 @@
 		<module>discovery-server</module>
 		<module>config-server</module>
 		<!--NO SERVER PORT - NO MAIN CLASS Below are not runnable class -It will be packaged as Jar in microservices for common DTOs and config usage -->
-		<module>common/common-dto</module>
-		<module>common/common-logging</module>
-		<module>common/common-config</module>
-		<module>infra/kafka-events</module>
-		<module>infra/resilience4j-config</module>
-		<module>infra/tracing-config</module>
-		<module>infra/security-lib</module>
-	</modules>
+	<!--<module>common/common-dto</module>
+    <module>common/common-logging</module>
+    <module>common/common-config</module>
+    <module>infra/kafka-events</module>
+    <module>infra/resilience4j-config</module>
+    <module>infra/tracing-config</module>
+    <module>infra/security-lib</module>-->
+</modules>
 
-	<!-- Common dependencies for all modules -->
+<!-- Common dependencies for all modules -->
 	<dependencyManagement>
 		<dependencies>
 			<!-- Import Spring Boot BOM -->
