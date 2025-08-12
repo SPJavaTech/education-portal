@@ -32,7 +32,7 @@
 	</properties>
 
 	<modules>
-		<!-- Add your submodules here -->
+		<!-- Add your submodules here below are part of microservice - have PORT -->
 		<module>student-service</module>
 		<module>instructor-service</module>
 		<module>course-service</module>
@@ -40,6 +40,8 @@
 		<module>api-gateway</module>
 		<module>discovery-server</module>
 		<module>config-server</module>
+		<!--NO SERVER PORT - NO MAIN CLASS Below are not runnable class -It will be packaged as Jar in microservices for common DTOs and config usage -->
+		<module>common/common-dto</module>
 	</modules>
 
 	<!-- Common dependencies for all modules -->
