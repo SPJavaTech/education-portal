@@ -9,12 +9,14 @@
 	</parent>
 	<artifactId>resilience4j-config</artifactId>
 	<name>Retry and Circuit breaker using  resilience4j for Education Portal</name>
+	<packaging>jar</packaging>
 
 	<dependencies>
+		<!-- Optional: Lombok for DTOs -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 </project>

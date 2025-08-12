@@ -10,12 +10,14 @@
 
 	<artifactId>kafka-events</artifactId>
 	<name>Async-communication using Kafka event for Education Portal</name>
+	<packaging>jar</packaging>
 
 	<dependencies>
+		<!-- Optional: Lombok for DTOs -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 </project>

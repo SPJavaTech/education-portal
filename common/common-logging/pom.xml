@@ -10,12 +10,14 @@
 
 	<artifactId>common-logging</artifactId>
 	<name>Common Logging Config</name>
+	<packaging>jar</packaging>
 
 	<dependencies>
+		<!-- Optional: Lombok for DTOs -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 </project>
