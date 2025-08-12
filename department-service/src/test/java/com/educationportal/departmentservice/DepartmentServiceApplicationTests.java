@@ -1,4 +1,4 @@
-package com.department_service;
+package com.educationportal.departmentservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
