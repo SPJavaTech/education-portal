@@ -55,9 +55,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
 	</dependencies>
 
-<!-- Common dependencies for all modules -->
+
+
+	<!-- Common dependencies for all modules -->
 	<dependencyManagement>
 		<dependencies>
 			<!-- Import Spring Boot BOM -->
