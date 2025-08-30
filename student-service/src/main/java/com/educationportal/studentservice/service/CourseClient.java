@@ -14,7 +14,7 @@ public class CourseClient {
 
     public String getMockCourse() {
        return webClient.get()
-                .uri("http://localhost:6083//api/v1/mock-course")
+                .uri("http://localhost:6083/api/v1/courses/mock-course")
                 .retrieve()
                 .bodyToMono(String.class)// expects JSON or text
                 .block(); //blocking here just for simplicity in testing
