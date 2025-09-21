@@ -37,6 +37,7 @@
 		<module>instructor-service</module>
 		<module>course-service</module>
 		<module>department-service</module>
+		<module>auth-service</module>
 		<module>discovery-server</module>
 		<module>config-server</module>
 		<!--NO SERVER PORT - NO MAIN CLASS Below are not runnable class -It will be packaged as Jar in microservices for common DTOs and config usage -->

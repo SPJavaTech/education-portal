@@ -1,1 +1,99 @@
-You just need to validate incoming JWTs and secure routes.
+Option 1: Let Spring Security Handle Login and Write a Success Handler
+
+This is the recommended approach.
+
+Change your SecurityConfig to handle OAuth2 success:
+
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .loginPage("/oauth2/authorization/github")
+                .successHandler((request, response, authentication) -> {
+                    OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
+                    String username = oauthUser.getAttribute("login");
+                    String token = jwtService.generateToken(username);
+
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"token\": \"" + token + "\", \"username\": \"" + username + "\"}");
+                })
+            );
+
+        return http.build();
+    }
+}
+
+
+Now when you log in via
+http://localhost:9091/oauth2/authorization/github,
+you’ll get a JWT response directly.
+
+🔹 Option 2: Keep /auth/callback but Change Redirect
+
+If you want a /auth/callback endpoint:
+
+Tell Spring Security to redirect to your /auth/callback after successful login:
+
+.oauth2Login(oauth2 -> oauth2
+    .loginPage("/oauth2/authorization/github")
+    .defaultSuccessUrl("/auth/callback", true)
+);
+
+
+Then your callback() method will execute:
+
+@GetMapping("/callback")
+public AuthResponse callback(Authentication authentication) {
+    OAuth2User oauthUser = ((OAuth2AuthenticationToken) authentication).getPrincipal();
+    String username = oauthUser.getAttribute("login");
+    String jwt = jwtService.generateToken(username);
+    return new AuthResponse(jwt, username);
+}
+
+🚀 Test Flow After Fix
+
+Go to GitHub → Settings → Developer settings → OAuth Apps.
+
+If you see your app under GitHub Apps, that’s wrong — you must create an OAuth App.
+
+Register a new OAuth App with:
+
+Application Name: SPEduMgmtMyApp
+
+Homepage URL: http://localhost:9091
+
+Authorization callback URL: http://localhost:9091/login/oauth2/code/github
+
+Copy the new Client ID and Client Secret into application.properties.
+
+Restart your Spring Boot app.
+
+Try http://localhost:9091/oauth2/authorization/github again.
+
+spring.security.oauth2.client.registration.github.client-id=Ov23li1k5f2zFt1fQHfI
+spring.security.oauth2.client.registration.github.client-secret=3e187b7a1a2d37940b900c7a1ef30f4b69d8da95
+
+Start auth-service on 9091.
+
+Open in browser:
+
+http://localhost:9091/oauth2/authorization/github
+
+
+Login with GitHub.
+
+Either:
+
+Option 1: You get JSON with token immediately.
+
+Option 2: You hit /auth/callback and get JWT there.
+
+Call /auth/me with your JWT to see user details.
