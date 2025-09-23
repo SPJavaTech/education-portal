@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
@@ -57,8 +58,11 @@ public class AuthController {
     public AuthResponse getToken(Authentication authentication) {
         OAuth2User oauthUser = ((OAuth2AuthenticationToken) authentication).getPrincipal();
         String username = oauthUser.getAttribute("login");
-        String jwt = jwtService.generateToken(username);
-        return new AuthResponse(jwt, username);
+        String email = oauthUser.getAttribute("email");
+        String avatarUrl = oauthUser.getAttribute("avatar_url");
+
+        String token = jwtService.generateToken(username);
+        return new AuthResponse(token, username);
     }
 
 }

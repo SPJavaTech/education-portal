@@ -19,6 +19,12 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long expiration; // in milliseconds
 
+    @Value("${jwt.issuer}")
+    private String issuer;
+
+    @Value("${jwt.audience}")
+    private String audience;
+
     @PostConstruct
     public void validateProperties() {
         if (secret == null || secret.isEmpty()) {
@@ -30,6 +36,8 @@ public class JwtService {
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
+                .setAudience(audience)
+                .setIssuer(issuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS256, secret)
