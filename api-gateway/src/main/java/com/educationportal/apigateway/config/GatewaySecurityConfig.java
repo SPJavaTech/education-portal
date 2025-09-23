@@ -11,6 +11,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -21,7 +22,8 @@ public class GatewaySecurityConfig {
 
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
-        SecretKey key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        SecretKey key = new SecretKeySpec(keyBytes, "HmacSHA256");
         return NimbusReactiveJwtDecoder.withSecretKey(key).build();
     }
 
@@ -33,9 +35,7 @@ public class GatewaySecurityConfig {
                         .pathMatchers("/auth/**").permitAll()
                         .anyExchange().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(jwt -> jwt.jwtDecoder(jwtDecoder()))
-                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtDecoder(jwtDecoder())))
                 .build();
     }
 }

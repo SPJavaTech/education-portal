@@ -7,6 +7,9 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -25,14 +28,14 @@ public class JwtService {
     @Value("${jwt.audience}")
     private String audience;
 
+    private Key hmacKey;
+
     @PostConstruct
-    public void validateProperties() {
-        if (secret == null || secret.isEmpty()) {
-            throw new IllegalStateException("JWT secret must be configured in application.properties");
-        }
+    public void init() {
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        this.hmacKey = new SecretKeySpec(keyBytes, "HmacSHA256");
     }
 
-    // 🔹 Generate JWT Token
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -40,7 +43,7 @@ public class JwtService {
                 .setIssuer(issuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(hmacKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
